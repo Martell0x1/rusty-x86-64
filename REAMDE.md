@@ -47,12 +47,9 @@
 ---
 
 ## About This Repo
-<p align="center">
-  <video width="70%" controls>
-    <source src="assets/repo_vid.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</p>
+
+https://github.com/user-attachments/assets/7f3f9b0a-41db-4e9e-ada4-3a61027562f5
+
 
 **Rusty x86_64** is a freestanding operating system kernel written in Rust.  
 The project demonstrates how to build a kernel from scratch without relying on any standard library.  
