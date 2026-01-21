@@ -4,8 +4,8 @@
 #![test_runner(os::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use alloc::{boxed::Box, rc::Rc, vec, vec::Vec};
 use alloc::string::String;
+use alloc::{boxed::Box, rc::Rc, vec, vec::Vec};
 use bootloader::{BootInfo, entry_point};
 use core::panic::PanicInfo;
 use os::{panic_print, print, println, warn};
@@ -21,14 +21,14 @@ extern crate alloc;
 
 entry_point!(kernel_main);
 fn kernel_main(boot_info: &'static BootInfo) -> ! {
-    use os::allocator;
-    use os::memory::{self, BootInfoFrameAllocator};
+    use os::memory::allocator;
+    use os::memory::memory_ops::{self, BootInfoFrameAllocator};
     use x86_64::VirtAddr;
 
     // println!("Hello World{}", "!");
     os::init();
     let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);
-    let mut mapper = unsafe { memory::init(phys_mem_offset) };
+    let mut mapper = unsafe { memory_ops::init(phys_mem_offset) };
     let mut frame_allocator = unsafe { BootInfoFrameAllocator::init(&boot_info.memory_map) };
 
     allocator::init_heap(&mut mapper, &mut frame_allocator).expect("heap initialization failed");
@@ -56,9 +56,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
         "reference count is {} now",
         Rc::strong_count(&cloned_reference)
     );
-    os::boot_screen::show();
-
-
+    os::boot::boot_screen::show();
 
     #[cfg(test)]
     test_main();

@@ -4,6 +4,7 @@
 
 use core::panic::PanicInfo;
 use os::{interrupts::init_idt, serial_print};
+use os::arch::x86_64::interrupts
 
 use lazy_static::lazy_static;
 use x86_64::structures::idt::InterruptDescriptorTable;

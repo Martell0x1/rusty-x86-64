@@ -1,4 +1,4 @@
-use crate::vga_buffer::{Color, WRITER};
+use crate::drivers::vga_buffer::{Color, WRITER};
 use crate::{print, println};
 use x86_64::instructions::hlt;
 
@@ -21,14 +21,14 @@ pub fn show() {
 }
 /// Print the ASCII Rust OS logo using macros
 fn print_logo() {
-     let logo = [
-         "                                                          ",
-         " ____            _                ___   __      __   _  _   ",
-         "|  _ \\ _   _ ___| |_ _   _  __  _( _ ) / /_    / /_ | || |  ",
-         "| |_) | | | / __| __| | | | \\ \\/ / _ \\| '_ \\  | '_ \\| || |_ ",
-         "|  _ <| |_| \\__ \\ |_| |_| |  >  < (_) | (_) | | (_) |__   _|",
-         "|_| \\_\\__,_|___/\\__|\\__, | /_/\\_\\___/ \\___/___\\___/   |_|  ",
-         "                     |___/                |_____|           "
+    let logo = [
+        "                                                          ",
+        " ____            _                ___   __      __   _  _   ",
+        "|  _ \\ _   _ ___| |_ _   _  __  _( _ ) / /_    / /_ | || |  ",
+        "| |_) | | | / __| __| | | | \\ \\/ / _ \\| '_ \\  | '_ \\| || |_ ",
+        "|  _ <| |_| \\__ \\ |_| |_| |  >  < (_) | (_) | | (_) |__   _|",
+        "|_| \\_\\__,_|___/\\__|\\__, | /_/\\_\\___/ \\___/___\\___/   |_|  ",
+        "                     |___/                |_____|           ",
     ];
 
     for line in logo.iter() {
@@ -80,7 +80,6 @@ fn animate_progress(task: &str, color: Color, target_percent: u8) {
     writer.write_byte(b'\n'); // finish line
 }
 
-
 /// Print a single progress bar using stack array
 fn print_progress(task: &str, percent: u8, color: Color) {
     let mut bar = [b' '; 12]; // [ '[', 10 chars, ']' ]
@@ -96,5 +95,6 @@ fn print_progress(task: &str, percent: u8, color: Color) {
 
     let bar_str = core::str::from_utf8(&bar).unwrap();
 
-    crate::vga_buffer::_print(color, format_args!("{} {}% {}\n", task, percent, bar_str));
+    crate::drivers::vga_buffer::_print(color, format_args!("{} {}% {}\n", task, percent, bar_str));
 }
+

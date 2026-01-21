@@ -117,7 +117,7 @@ impl Writer {
         self.color_code = ColorCode::new(fg, bg);
     }
     pub fn set_column(&mut self, col: usize) {
-        self.column_position = col.min(crate::vga_buffer::BUFFER_WIDTH - 1);
+        self.column_position = col.min(crate::drivers::vga_buffer::BUFFER_WIDTH - 1);
     }
 }
 

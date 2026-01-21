@@ -2,7 +2,7 @@ use crate::{exception_print, hlt_loop, print};
 use lazy_static::lazy_static;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 
-use crate::gdt;
+use crate::arch::x86_64::gdt;
 use pic8259::ChainedPics;
 use spin;
 
@@ -114,4 +114,3 @@ extern "x86-interrupt" fn keyboard_interrupt_handler(_stack_frame: InterruptStac
             .notify_end_of_interrupt(InterruptIndex::keyboard.as_u8());
     }
 }
-

@@ -12,14 +12,24 @@ use core::panic::PanicInfo;
 use bootloader::{BootInfo, entry_point};
 
 // use x86_64::structures::gdt;
-pub mod allocator;
-pub mod boot_screen;
-pub mod gdt;
-pub mod interrupts;
 pub mod macros;
-pub mod memory;
-pub mod serial;
-pub mod vga_buffer;
+
+pub mod drivers {
+    pub mod serial;
+    pub mod vga_buffer;
+}
+
+pub mod memory {
+    pub mod allocator;
+    pub mod memory_ops;
+}
+
+pub mod boot {
+    pub mod boot_screen;
+}
+pub mod arch {
+    pub mod x86_64;
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u32)]
@@ -84,10 +94,10 @@ fn panic(info: &PanicInfo) -> ! {
 }
 
 pub fn init() {
-    interrupts::init_idt();
-    gdt::init();
+    arch::x86_64::interrupts::init_idt();
+    arch::x86_64::gdt::init();
     unsafe {
-        interrupts::PICS.lock().initialize();
+        arch::x86_64::interrupts::PICS.lock().initialize();
     };
     x86_64::instructions::interrupts::enable();
 }
